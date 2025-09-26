@@ -1,0 +1,51 @@
+# GitHub App Configuration for Glacier
+# This file contains the configuration for creating a GitHub App
+
+name: "Glacier AI Coding Tool"
+description: "AI-powered coding tool that integrates with GitHub for repository management and code generation"
+homepage_url: "https://glacier-ai.vercel.app"
+callback_url: "https://glacier-ai.vercel.app/auth/github/callback"
+webhook_url: "https://glacier-ai.vercel.app/api/github/webhook"
+
+# Permissions
+permissions:
+  # Repository permissions
+  contents: "write"          # Read and write repository contents
+  metadata: "read"           # Read repository metadata
+  pull_requests: "write"     # Create and manage pull requests
+  issues: "write"           # Create and manage issues
+  repository_hooks: "write" # Manage repository webhooks
+  
+  # User permissions
+  user: "read"              # Read user profile information
+  user:email: "read"        # Read user email addresses
+
+# Events to subscribe to
+events:
+  - repository
+  - pull_request
+  - push
+  - issues
+  - issue_comment
+
+# Installation settings
+installation:
+  # Allow users to install the app on their repositories
+  public: true
+  
+  # Allow installation on user accounts
+  user: true
+  
+  # Allow installation on organizations
+  organization: true
+
+# Webhook secret (generate a random string)
+webhook_secret: "glacier_webhook_secret_2025"
+
+# Client ID and Client Secret (will be generated when you create the app)
+# These should be stored as environment variables:
+# GITHUB_APP_ID=your_app_id
+# GITHUB_CLIENT_ID=your_client_id
+# GITHUB_CLIENT_SECRET=your_client_secret
+# GITHUB_PRIVATE_KEY=your_private_key
+# GITHUB_WEBHOOK_SECRET=your_webhook_secret

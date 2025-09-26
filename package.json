@@ -1,0 +1,45 @@
+{
+  "name": "glacier",
+  "version": "1.0.0",
+  "description": "AI Coding Tool - Generate UI, Code, and Full-Stack Applications",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0",
+    "openai": "^4.0.0",
+    "typescript": "^5.0.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@types/react-dom": "^18.0.0",
+    "lucide-react": "^0.294.0",
+    "tailwindcss": "^3.3.0",
+    "autoprefixer": "^10.4.16",
+    "postcss": "^8.4.31",
+    "framer-motion": "^10.16.4",
+    "react-syntax-highlighter": "^15.5.0",
+    "@types/react-syntax-highlighter": "^15.5.7",
+    "monaco-editor": "^0.44.0",
+    "@monaco-editor/react": "^4.6.0",
+    "react-markdown": "^9.0.1",
+    "remark-gfm": "^4.0.0",
+    "rehype-highlight": "^7.0.0",
+    "uuid": "^9.0.1",
+    "@types/uuid": "^9.0.7",
+    "@octokit/rest": "^20.0.2",
+    "@octokit/auth-app": "^6.0.1",
+    "xterm": "^5.3.0",
+    "xterm-addon-fit": "^0.8.0",
+    "@xterm/xterm": "^5.3.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}

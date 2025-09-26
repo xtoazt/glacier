@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  color: #e5e7eb;
+  background: #0d1117;
+  min-height: 100vh;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Custom scrollbar - Terminal style */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #161b22;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #30363d;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #484f58;
+}
+
+/* Animation classes */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.slide-up {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+@keyframes slideUp {
+  0% { transform: translateY(10px); opacity: 0; }
+  100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Terminal-style code blocks */
+.code-block {
+  background: #0d1117;
+  color: #e6edf3;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  font-size: 14px;
+  line-height: 1.5;
+  overflow-x: auto;
+}
+
+/* Terminal window styling */
+.terminal-window {
+  background: #0d1117;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.terminal-header {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red { background: #ff5f56; }
+.terminal-dot.yellow { background: #ffbd2e; }
+.terminal-dot.green { background: #27ca3f; }
+
+.terminal-title {
+  color: #8b949e;
+  font-size: 12px;
+  margin-left: 8px;
+}
+
+/* Terminal tabs */
+.terminal-tabs {
+  background: #161b22;
+  border-bottom: 1px solid #30363d;
+  display: flex;
+  overflow-x: auto;
+}
+
+.terminal-tab {
+  background: #21262d;
+  border-right: 1px solid #30363d;
+  padding: 8px 16px;
+  color: #8b949e;
+  font-size: 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.terminal-tab.active {
+  background: #0d1117;
+  color: #e6edf3;
+  border-bottom: 2px solid #f85149;
+}
+
+.terminal-tab:hover {
+  background: #21262d;
+  color: #e6edf3;
+}
+
+/* Terminal content */
+.terminal-content {
+  background: #0d1117;
+  color: #e6edf3;
+  padding: 16px;
+  min-height: 400px;
+  font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+}
+
+/* Terminal prompt */
+.terminal-prompt {
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.terminal-command {
+  color: #e6edf3;
+}
+
+.terminal-output {
+  color: #8b949e;
+  margin-top: 8px;
+}
+
+/* GitHub-style colors */
+.github-blue { color: #58a6ff; }
+.github-green { color: #3fb950; }
+.github-yellow { color: #d29922; }
+.github-red { color: #f85149; }
+.github-purple { color: #bc8cff; }
+.github-orange { color: #ffa657; }
