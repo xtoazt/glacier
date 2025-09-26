@@ -24,6 +24,9 @@ body {
   background: #0d1117;
   min-height: 100vh;
   font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 a {
@@ -31,18 +34,18 @@ a {
   text-decoration: none;
 }
 
-/* Custom scrollbar - Terminal style */
+/* Custom scrollbar - Cursor style */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #161b22;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #30363d;
-  border-radius: 4px;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
