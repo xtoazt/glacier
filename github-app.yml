@@ -3,9 +3,9 @@
 
 name: "Glacier AI Coding Tool"
 description: "AI-powered coding tool that integrates with GitHub for repository management and code generation"
-homepage_url: "https://glacier-ai.vercel.app"
-callback_url: "https://glacier-ai.vercel.app/auth/github/callback"
-webhook_url: "https://glacier-ai.vercel.app/api/github/webhook"
+homepage_url: "https://xglacier.vercel.app"
+callback_url: "https://xglacier.vercel.app/api/github/auth/callback"
+webhook_url: "https://xglacier.vercel.app/api/github/webhook"
 
 # Permissions
 permissions:

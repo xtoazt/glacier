@@ -10,9 +10,9 @@ This guide will help you set up a GitHub App for Glacier to enable repository ma
 
 ### Basic Information
 - **GitHub App name**: `Glacier AI Coding Tool`
-- **Homepage URL**: `https://your-domain.vercel.app`
-- **User authorization callback URL**: `https://your-domain.vercel.app/auth/github/callback`
-- **Webhook URL**: `https://your-domain.vercel.app/api/github/webhook`
+- **Homepage URL**: `https://xglacier.vercel.app`
+- **User authorization callback URL**: `https://xglacier.vercel.app/api/github/auth/callback`
+- **Webhook URL**: `https://xglacier.vercel.app/api/github/webhook`
 - **Webhook secret**: Generate a random string (save this!)
 
 ### Permissions
@@ -85,9 +85,9 @@ GITHUB_WEBHOOK_SECRET=your_webhook_secret
 ## 7. Update GitHub App URLs
 
 After deployment, update your GitHub App settings with the production URLs:
-- Homepage URL: `https://your-app.vercel.app`
-- Callback URL: `https://your-app.vercel.app/auth/github/callback`
-- Webhook URL: `https://your-app.vercel.app/api/github/webhook`
+- Homepage URL: `https://xglacier.vercel.app`
+- Callback URL: `https://xglacier.vercel.app/api/github/auth/callback`
+- Webhook URL: `https://xglacier.vercel.app/api/github/webhook`
 
 ## Features Enabled
 

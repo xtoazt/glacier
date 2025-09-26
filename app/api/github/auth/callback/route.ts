@@ -6,11 +6,11 @@ export async function GET(request: NextRequest) {
   const error = searchParams.get('error');
 
   if (error) {
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}?error=${error}`);
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'https://xglacier.vercel.app'}?error=${error}`);
   }
 
   if (!code) {
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}?error=no_code`);
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'https://xglacier.vercel.app'}?error=no_code`);
   }
 
   try {
@@ -74,6 +74,6 @@ export async function GET(request: NextRequest) {
     });
   } catch (error) {
     console.error('GitHub OAuth error:', error);
-    return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}?error=auth_failed`);
+    return NextResponse.redirect(`${process.env.NEXTAUTH_URL || 'https://xglacier.vercel.app'}?error=auth_failed`);
   }
 }
