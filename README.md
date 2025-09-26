@@ -68,9 +68,26 @@ npm run dev
 
 ### Vercel Deployment
 
-1. Push to GitHub
-2. Connect to Vercel
-3. Deploy with default settings
+1. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Initial Glacier AI Coding Terminal"
+   git push origin main
+   ```
+
+2. **Connect to Vercel**:
+   - Go to [vercel.com](https://vercel.com)
+   - Import your GitHub repository
+   - Vercel will auto-detect Next.js settings
+
+3. **Configure Environment Variables** (Optional):
+   - `GITHUB_APP_ID`: Your GitHub App ID
+   - `GITHUB_CLIENT_ID`: Your GitHub App Client ID
+   - `GITHUB_CLIENT_SECRET`: Your GitHub App Client Secret
+   - `GITHUB_PRIVATE_KEY`: Your GitHub App Private Key
+   - `GITHUB_WEBHOOK_SECRET`: Your GitHub App Webhook Secret
+
+4. **Deploy**: Vercel will automatically deploy on every push to main
 
 ## 📁 Project Structure
 
