@@ -1,14 +1,11 @@
 import { GenerationRequest, GenerationResult, ProjectFile, UIComponent } from './types';
 import { LLM7Client } from './llm7-client';
-import { GPTOSSClient } from './gptoss-client';
 
 export class AIGenerator {
   private llm7Client: LLM7Client;
-  private gptossClient: GPTOSSClient;
 
   constructor() {
     this.llm7Client = new LLM7Client();
-    this.gptossClient = new GPTOSSClient();
   }
 
   async generateUI(request: GenerationRequest): Promise<GenerationResult> {

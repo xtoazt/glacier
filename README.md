@@ -1,6 +1,6 @@
 # 🧊 Glacier - AI Coding Terminal
 
-**Glacier** is a comprehensive AI-powered coding terminal that generates UI components, full-stack applications, and provides intelligent chat assistance. Inspired by [Warp](https://www.warp.dev/), [SuperDesign](https://github.com/superdesigndev/superdesign), [Bolt.new](https://github.com/stackblitz/bolt.new), [Chef](https://github.com/get-convex/chef), and [v0.app](https://v0.app).
+**Glacier** is a Cursor-like AI coding assistant with a clean, terminal interface. Chat with AI, manage GitHub repositories, and build applications with the power of AI.
 
 > **From prompt to production** - The fastest way to code with AI agents
 
@@ -116,7 +116,6 @@ glacier/
 │   ├── types.ts                 # TypeScript interfaces
 │   ├── ai-generator.ts          # AI generation logic
 │   ├── llm7-client.ts           # LLM7 API client
-│   └── gptoss-client.ts         # GPT-OSS API client
 ├── tailwind.config.js           # Tailwind configuration
 ├── vercel.json                  # Vercel deployment config
 └── README.md                    # This file
@@ -126,7 +125,6 @@ glacier/
 
 ### Chat APIs
 - `POST /api/chat/llm7` - Chat with LLM7 models
-- `POST /api/chat/gptoss` - Chat with GPT-OSS models
 - `GET /api/models` - Get available models
 
 ### Generation APIs
@@ -223,7 +221,6 @@ To enable full GitHub integration, you'll need to set up a GitHub App:
 - [Chef](https://github.com/get-convex/chef) - Backend architecture inspiration
 - [v0.app](https://v0.app) - Component generation patterns
 - [LLM7](https://api.llm7.io) - AI API provider
-- [GPT-OSS](https://github.com/junioralive/gptoss-proxy) - Open-source AI provider
 
 ---
 
