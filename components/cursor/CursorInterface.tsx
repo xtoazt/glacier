@@ -101,36 +101,18 @@ export default function CursorInterface() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = input.trim();
     setInput('');
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/chat/llm7', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          messages: [...messages, userMessage].map(msg => ({
-            role: msg.role,
-            content: msg.content
-          })),
-          model: selectedModel
-        }),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        const assistantMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'assistant',
-          content: data.content,
-          timestamp: new Date()
-        };
-        setMessages(prev => [...prev, assistantMessage]);
+      // Check if this is a coding request
+      const isCodingRequest = checkIfCodingRequest(currentInput);
+      
+      if (isCodingRequest && isGitHubConnected) {
+        await handleCodingRequest(currentInput, userMessage);
       } else {
-        throw new Error(data.error || 'Failed to get response');
+        await handleChatRequest(currentInput, userMessage);
       }
     } catch (err) {
       const errorMessage: Message = {
@@ -142,6 +124,117 @@ export default function CursorInterface() {
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const checkIfCodingRequest = (input: string): boolean => {
+    const codingKeywords = [
+      'create', 'build', 'make', 'generate', 'code', 'component', 'app', 'website',
+      'fix', 'bug', 'error', 'refactor', 'add feature', 'implement', 'write code'
+    ];
+    return codingKeywords.some(keyword => input.toLowerCase().includes(keyword));
+  };
+
+  const handleCodingRequest = async (input: string, userMessage: Message) => {
+    const githubToken = localStorage.getItem('github_token');
+    
+    // Determine the type of coding task
+    let taskType = 'create_component';
+    if (input.toLowerCase().includes('app') || input.toLowerCase().includes('website')) {
+      taskType = 'create_app';
+    } else if (input.toLowerCase().includes('fix') || input.toLowerCase().includes('bug')) {
+      taskType = 'fix_bug';
+    } else if (input.toLowerCase().includes('add') || input.toLowerCase().includes('feature')) {
+      taskType = 'add_feature';
+    } else if (input.toLowerCase().includes('refactor')) {
+      taskType = 'refactor';
+    }
+
+    const task = {
+      id: `task-${Date.now()}`,
+      type: taskType,
+      description: input,
+      context: 'User requested via Glacier AI chat',
+      requirements: [
+        'Modern React with TypeScript',
+        'Tailwind CSS styling',
+        'Production ready code',
+        'Clean and maintainable'
+      ]
+    };
+
+    const response = await fetch('/api/code/execute', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        task,
+        githubToken
+      }),
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      let responseContent = `✅ **Task completed successfully!**\n\n`;
+      
+      if (result.files && result.files.length > 0) {
+        responseContent += `**Files created:**\n`;
+        result.files.forEach((file: any) => {
+          responseContent += `- \`${file.path}\` (${file.language})\n`;
+        });
+        responseContent += `\n`;
+      }
+
+      if (result.repository) {
+        responseContent += `**Repository:** [${result.repository.owner}/${result.repository.name}](${result.repository.url})\n`;
+        if (result.pullRequest) {
+          responseContent += `**Pull Request:** [#${result.pullRequest.number}](${result.pullRequest.url})\n`;
+        }
+      }
+
+      responseContent += `\n**Description:** ${result.files?.[0]?.description || 'Code generated successfully'}`;
+
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: responseContent,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, assistantMessage]);
+    } else {
+      throw new Error(result.error || 'Failed to execute coding task');
+    }
+  };
+
+  const handleChatRequest = async (input: string, userMessage: Message) => {
+    const response = await fetch('/api/chat/llm7', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        messages: [...messages, userMessage].map(msg => ({
+          role: msg.role,
+          content: msg.content
+        })),
+        model: selectedModel
+      }),
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      const assistantMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: data.content,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, assistantMessage]);
+    } else {
+      throw new Error(data.error || 'Failed to get response');
     }
   };
 
@@ -220,6 +313,55 @@ export default function CursorInterface() {
     setActiveTab(newTab.id);
   };
 
+  const handleQuickCreateRepo = async () => {
+    const repoName = prompt('Enter repository name:');
+    if (!repoName) return;
+
+    const description = prompt('Enter repository description:') || `Repository created by Glacier AI: ${repoName}`;
+    
+    setIsLoading(true);
+    
+    try {
+      const githubToken = localStorage.getItem('github_token');
+      const response = await fetch('/api/code/create-repo', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: repoName,
+          description,
+          githubToken,
+          template: 'Next.js application'
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        const successMessage: Message = {
+          id: Date.now().toString(),
+          role: 'assistant',
+          content: `✅ **Repository created successfully!**\n\n**Repository:** [${result.repository.owner}/${result.repository.name}](${result.repository.url})\n\n**Files created:**\n${result.files.map((f: any) => `- \`${f.path}\``).join('\n')}\n\nYou can now start coding in this repository!`,
+          timestamp: new Date()
+        };
+        setMessages(prev => [...prev, successMessage]);
+      } else {
+        throw new Error(result.error || 'Failed to create repository');
+      }
+    } catch (error) {
+      const errorMessage: Message = {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: `❌ **Failed to create repository:** ${error instanceof Error ? error.message : 'Unknown error'}`,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className="flex-1 flex flex-col bg-gray-900">
       {/* Tabs */}
@@ -264,7 +406,22 @@ export default function CursorInterface() {
                 <span className="text-2xl">🤖</span>
               </div>
               <p className="text-lg font-medium">Welcome to Glacier</p>
-              <p className="text-sm">Start a conversation with the AI assistant</p>
+              <p className="text-sm mb-4">Your AI coding assistant with real GitHub integration</p>
+              
+              <div className="max-w-md mx-auto text-left space-y-2">
+                <p className="text-xs text-gray-400">Try these commands:</p>
+                <div className="bg-gray-800 rounded p-3 space-y-1">
+                  <p className="text-xs"><span className="text-blue-400">•</span> "Create a React component for a login form"</p>
+                  <p className="text-xs"><span className="text-blue-400">•</span> "Build a Next.js todo app"</p>
+                  <p className="text-xs"><span className="text-blue-400">•</span> "Fix the bug in my authentication"</p>
+                  <p className="text-xs"><span className="text-blue-400">•</span> "Add a dark mode feature"</p>
+                </div>
+                {!isGitHubConnected && (
+                  <p className="text-xs text-yellow-400 mt-2">
+                    💡 Connect GitHub to create real repositories and files!
+                  </p>
+                )}
+              </div>
             </div>
           )}
           
@@ -329,9 +486,21 @@ export default function CursorInterface() {
                   ? 'bg-green-600 border-green-500 text-white'
                   : 'bg-gray-700 border-gray-600 text-gray-300 hover:bg-gray-600'
               }`}
+              title={isGitHubConnected ? 'Disconnect GitHub' : 'Connect GitHub'}
             >
               <Github className="w-4 h-4" />
             </button>
+
+            {/* Quick Create Repo Button */}
+            {isGitHubConnected && (
+              <button
+                onClick={handleQuickCreateRepo}
+                className="px-3 py-2 text-sm rounded border transition-colors bg-blue-600 border-blue-500 text-white hover:bg-blue-700"
+                title="Create new repository"
+              >
+                <Plus className="w-4 h-4" />
+              </button>
+            )}
 
             {/* Input Field */}
             <div className="flex-1 relative">
